@@ -1,0 +1,232 @@
+:root {
+  --shade-darker:   #000000;
+  --shade-dark:     #201c24;
+  --shade:          #787878;
+  --shade-light:    #b2b2b2;
+  --shade-lighter:  #f6f6f6;
+
+  --primary:        #FF1294;
+}
+
+
+/* Base */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica Neue', sans-serif, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 20px;
+  background-color: var(--shade-darker);
+  color: var(--shade-lighter);
+}
+
+.prefield {
+  font-style: italic;
+  text-decoration: underline;
+}
+
+/* Layout */
+.page {
+  min-height: 100vh;
+  max-width: 800px;
+  margin: auto;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+/* Form */
+
+@import 'variables.css';
+
+
+
+
+.inline-field {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.inline-field-label {
+  width: 28%;
+  margin-right: 2%;
+  text-align: right;
+}
+
+.inline-field-input {
+  width: 69%;
+}
+
+
+
+
+
+/* Form input */
+.form-input-inline, .form-radio {
+  display: block;
+  margin: .5rem 0;
+}
+
+.form-input-inline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-input-inline input[type="text"],
+.form-input-inline input[type="number"],
+.form-input-inline select {
+  width: 7rem;
+}
+
+
+/* Form radio */
+.form-radio {
+  display: flex;
+  border: .25rem solid var(--shade-darker);
+  border-radius: .25rem;
+  background-color: var(--shade-darker);
+}
+
+.form-radio > input[type="radio"] {
+  display: none;
+}
+
+.form-radio > label {
+  flex-grow: 1;
+  padding: .25em;
+  border-radius: .125rem;
+  text-align: center;
+}
+
+.form-radio > label:last-child {
+  border-right: none;
+}
+
+.form-radio > input[type="radio"]:checked + label {
+  color: var(--shade-dark);
+  background-color: var(--shade-light);
+}
+
+
+
+label {
+  cursor: pointer;
+}
+
+.inline-field-input {
+  max-width: 100%;
+  font-size: 1rem;
+  padding: .25em;
+  border: none;
+  border-radius: .125rem;
+  color: var(--shade-light);
+  background: var(--shade-dark);
+  line-height: 1.2;
+  height: 1.2rem;
+  box-sizing: initial;
+  cursor: pointer;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  transition: .5s all;
+}
+textarea.inline-field-input {
+  min-height: 3em;
+}
+
+.inline-field-input:active,
+.inline-field-input:focus {
+  border-color: var(--primary);
+  color: var(--shade-darker);
+  background: var(--shade-light);
+  outline: none;
+}
+
+fieldset {
+  padding: .25rem .5rem;
+  border-radius: .25rem;
+  border: none;
+  margin: .5rem 0;
+  background-color: var(--shade-darker);
+}
+
+
+/**
+ * Fancy checkboxes
+ *
+ * <input type="checkbox"/>
+ * <span class="checkbox-label" label-on="Enabled!" label-off="off."></span>
+ */
+input[type='checkbox'] {
+  display: none;
+}
+input[type='checkbox'] + .checkbox-label {
+  padding: 0 .75em;
+  background-color: var(--shade-dark);
+  border-radius: .6em;
+  border: none;
+  color: var(--shade-light);
+  transition: all .3s;
+  box-sizing: border-box;
+}
+input[type='checkbox'] + .checkbox-label:before {
+  content: attr(label-off);
+}
+input[type='checkbox']:checked + .checkbox-label {
+  background-color: var(--primary);
+  color: var(--shade-darker);
+}
+input[type='checkbox']:checked + .checkbox-label:before {
+  content: attr(label-on);
+}
+
+/**
+ * Buttons
+ */
+button {
+  border: 1px solid var(--primary);
+  border-radius: .25rem;
+  font-size: 1rem;
+  color: var(--primary);
+  background: none;
+}
+button:hover {
+  background: var(--primary);
+  color: var(--shade-darker);
+}
+button:active {
+  background: var(--shade-darker);
+  color: var(--shade-lighter);
+}
+button:disabled, button:disabled:hover, button:disabled:active {
+  border-color: var(--shade-darker);
+  background: none;
+  color: var(--shade-darker);
+}
+button.full-width {
+  padding: .5em;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
+
+/* Feedback table */
+
+.feedback-table {
+
+}
+.feedback-row {
+  display: flex;
+}
+.feedback-row > div{
+  width: 5%;
+  padding: .25em;
+}
+.feedback-title {
+  color: var(--shade-darker);
+  background-color: var(--shade-light);
+}
+.feedback-label {
+  flex-grow: 1;
+}
