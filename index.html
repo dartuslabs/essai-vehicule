@@ -31,7 +31,8 @@
     <link rel="stylesheet" type="text/css" href="app.css">
 
     <script src="lib/signature_pad.min.js"></script>
-    <script src="lib/jspdf.min.js"></script>
+    <script src="lib/jspdf.debug.js"></script>
+    <script src="pdfBuilder.js"></script>
   </head>
 
   <body>
@@ -247,6 +248,12 @@
       // if ('serviceWorker' in navigator) {
       //   navigator.serviceWorker.register('service-worker.js', {scope: '.'});
       // }
+
+
+document.querySelector('h1').addEventListener('click', () => {
+  console.log(22)
+  myPDF.doc.save('troll.pdf');
+})
     </script>
   </body>
 </html>

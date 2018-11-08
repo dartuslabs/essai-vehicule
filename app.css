@@ -31,6 +31,7 @@ html, body {
 
 canvas {
   max-width: 100%;
+  background-color: #ccc;
 }
 
 /* Form */

@@ -41,9 +41,7 @@ function init() {
   canvas.height = canvas.offsetHeight * ratio;
   canvas.getContext("2d").scale(ratio, ratio);
 
-  signaturePad = new SignaturePad(canvas, {
-    penColor: "rgb(255,255,255)"
-  });
+  signaturePad = new SignaturePad(canvas);
   signaturePad.on()
 
 }
@@ -76,7 +74,7 @@ function validateStep (step) {
       break;
 
     case 3:
-      
+
       break;
   }
 }
