@@ -1,109 +1,67 @@
 :root {
-  --shade-darker:   #000000;
+  --shade-darker:   #111111;
   --shade-dark:     #201c24;
   --shade:          #787878;
-  --shade-light:    #b2b2b2;
-  --shade-lighter:  #f6f6f6;
+  --shade-light:    #dddddd;
+  --shade-lighter:  #fafafa;
 
-  --primary:        #FF1294;
+  --primary:        #0070c9;
 }
 
 
 /* Base */
 html, body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica Neue', sans-serif, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   font-size: 20px;
-  background-color: var(--shade-darker);
-  color: var(--shade-lighter);
+  background-color: var(--shade-lighter);
+  color: var(--shade-darker);
 }
 
+
+/* Layout */
+header, .page {
+  margin: auto;
+  max-width: 860px;
+}
+header {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--shade-light);
+  margin-bottom: 2rem;
+}
+.page {
+  padding: 1rem;
+  min-height: 100vh;
+}
+.block {
+  padding: 1rem 0;
+}
+.action-block {
+  padding: 1rem 0;
+  text-align: center;
+}
 .prefield {
   font-style: italic;
   text-decoration: underline;
 }
 
-/* Layout */
-.page {
-  min-height: 100vh;
-  max-width: 800px;
-  margin: auto;
-}
-
-canvas {
-  max-width: 100%;
-  background-color: #ccc;
-}
 
 /* Form */
-
-@import 'variables.css';
-
-
-
-
 .inline-field {
   display: flex;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
-.inline-field-label {
-  width: 28%;
+.inline-field .inline-field-label {
+  width: 34%;
   margin-right: 2%;
   text-align: right;
 }
 
-.inline-field-input {
-  width: 69%;
-}
-
-
-
-
-
-/* Form input */
-.form-input-inline, .form-radio {
-  display: block;
-  margin: .5rem 0;
-}
-
-.form-input-inline {
-  display: flex;
-  justify-content: space-between;
-}
-
-.form-input-inline input[type="text"],
-.form-input-inline input[type="number"],
-.form-input-inline select {
-  width: 7rem;
-}
-
-
-/* Form radio */
-.form-radio {
-  display: flex;
-  border: .25rem solid var(--shade-darker);
-  border-radius: .25rem;
-  background-color: var(--shade-darker);
-}
-
-.form-radio > input[type="radio"] {
-  display: none;
-}
-
-.form-radio > label {
-  flex-grow: 1;
-  padding: .25em;
-  border-radius: .125rem;
-  text-align: center;
-}
-
-.form-radio > label:last-child {
-  border-right: none;
-}
-
-.form-radio > input[type="radio"]:checked + label {
-  color: var(--shade-dark);
-  background-color: var(--shade-light);
+.inline-field .inline-field-input {
+  width: 64%;
+  max-width: 64%;
+  min-width: 64%
 }
 
 
@@ -111,15 +69,15 @@ canvas {
 label {
   cursor: pointer;
 }
-
 .inline-field-input {
   max-width: 100%;
-  font-size: 1rem;
+  font-size: .875em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   padding: .25em;
   border: none;
   border-radius: .125rem;
-  color: var(--shade-light);
-  background: var(--shade-dark);
+  color: var(--shade-dark);
+  background: var(--shade-light);
   line-height: 1.2;
   height: 1.2rem;
   box-sizing: initial;
@@ -149,85 +107,86 @@ fieldset {
 }
 
 
-/**
- * Fancy checkboxes
- *
- * <input type="checkbox"/>
- * <span class="checkbox-label" label-on="Enabled!" label-off="off."></span>
- */
-input[type='checkbox'] {
-  display: none;
-}
-input[type='checkbox'] + .checkbox-label {
-  padding: 0 .75em;
-  background-color: var(--shade-dark);
-  border-radius: .6em;
-  border: none;
-  color: var(--shade-light);
-  transition: all .3s;
-  box-sizing: border-box;
-}
-input[type='checkbox'] + .checkbox-label:before {
-  content: attr(label-off);
-}
-input[type='checkbox']:checked + .checkbox-label {
-  background-color: var(--primary);
-  color: var(--shade-darker);
-}
-input[type='checkbox']:checked + .checkbox-label:before {
-  content: attr(label-on);
-}
+
 
 /**
  * Buttons
  */
 button {
   border: 1px solid var(--primary);
-  border-radius: .25rem;
-  font-size: 1rem;
+  font-size: 1em;
   color: var(--primary);
+  border-radius: 1em;
+  padding: .25em .65em;
   background: none;
 }
-button:hover {
-  background: var(--primary);
-  color: var(--shade-darker);
-}
-button:active {
-  background: var(--shade-darker);
-  color: var(--shade-lighter);
-}
-button:disabled, button:disabled:hover, button:disabled:active {
-  border-color: var(--shade-darker);
-  background: none;
-  color: var(--shade-darker);
-}
-button.full-width {
-  padding: .5em;
-  box-sizing: border-box;
-}
 
 
-
+.signature-field {
+  width: 700px;
+  margin: 3rem auto 0;
+  text-align: right;
+}
+.signature-field-label {
+  text-align: center;
+  color: var(--shade);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: .75em;
+}
+canvas {
+  max-width: 100%;
+  background-color: var(--shade-light);
+}
 
 
 
 
 /* Feedback table */
-
-.feedback-table {
-
-}
 .feedback-row {
   display: flex;
-}
-.feedback-row > div{
-  width: 5%;
-  padding: .25em;
-}
-.feedback-title {
-  color: var(--shade-darker);
-  background-color: var(--shade-light);
+  align-items: center;
+  margin: .5rem 0;
 }
 .feedback-label {
   flex-grow: 1;
+  padding: .25em;
+}
+
+
+/* Form radio */
+.form-radio {
+  display: flex;
+  border: 1px solid var(--shade-darker);
+  border-radius: .25rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.form-radio > input[type="radio"] {
+  display: none;
+}
+
+.form-radio > label {
+  flex-grow: 1;
+  padding: .25em;
+  min-width: 2rem;
+  color: var(--shade-darker);
+  border-right: 1px solid var(--shade-darker);
+  text-align: center;
+}
+.form-radio > label:last-child {
+  border-right: none;
+}
+.form-radio > input[type="radio"]:checked + label {
+  color: var(--shade-lighter);
+  background-color: var(--shade-darker);
+}
+
+
+/* Goodbye */
+.credits {
+  margin: 30% 10% 0;
+  text-align: center;
+  font-size: 1.25em;
 }

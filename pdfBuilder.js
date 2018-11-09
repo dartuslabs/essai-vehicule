@@ -110,7 +110,7 @@ pdfBuilder.prototype.loadSVG = function (url) {
 pdfBuilder.prototype.loadImage = function (imgName, url) {
   return fetch(url)
     .then(response => response.blob())
-    .then(myBlob   => blobToB64(myBlob))
+    .then(myBlob   => blobToB64(myBlob, url))
     .then(b64      => b64imageMetaExtractor(b64))
     .then(imgData  => this.img[imgName] = imgData);
 }
@@ -174,7 +174,7 @@ pdfBuilder.prototype.fillPageOne = function () {
     width = img.width * (maxHeight / img.height)
     height = maxHeight
   }
-  this.doc.addImage(img.data, 'JPG', l.margin, this.contentStart + 98, width, height);	
+  this.doc.addImage(img.data, 'JPEG', l.margin, this.contentStart + 98, width, height);	
 }
 
 
@@ -197,6 +197,9 @@ pdfBuilder.prototype.fillPageTwo = function () {
   this.doc.text(l.margin, this.contentStart, meta);
   this.contentStart += 10
 
+  // Signature
+  this.doc.addImage(fixImgDataType(this.data.signature, 'png'), 'PNG', l.margin, this.contentStart, 70, 40);	
+
 }
 
 
@@ -209,18 +212,7 @@ pdfBuilder.prototype.fillPageThree = function () {
   this.contentStart += 14
 
   // Feedback
-  let d = {
-    confortAssise: "-",
-    dureeEssai: "--",
-    ergonomieBoite: "+",
-    ergonomieCommandes: "+",
-    parcoursEssai: "-",
-    qualiteAccueil: "-",
-    qualiteConduite: "+",
-    qualiteExplication: "+",
-    projetAchat: "Pas de projet",
-    satisfactionEssai: 7.32
-  };
+  let d = this.data.feedback
   var labels = ['--', '-', '+', '++'];
 
   [
@@ -319,8 +311,8 @@ pdfBuilder.prototype.addHeader = function () {
 
   // Dartus logo
   var logoWidth = l.colOneWidth,
-    logoHeight = logoWidth * this.img.dartusLogo.height / this.img.dartusLogo.width
-  this.doc.addImage(this.img.dartusLogo.data, 'PNG', l.colOneStart, l.margin, logoWidth, logoHeight);
+    logoHeight = logoWidth * this.img.dartusLogo.height / this.img.dartusLogo.width;
+  this.doc.addImage(this.img.dartusLogo.data, 'JPEG', l.colOneStart, l.margin, logoWidth, logoHeight);
 
   // Header title
   var headerFontSize = this.setFontStyle('title')
@@ -381,16 +373,29 @@ pdfBuilder.prototype.getBlob = function () {
  * @param blob Blob            Blob to encode
  * @return     Promise<String> Promise
  */
-function blobToB64 (blob) {
+function blobToB64 (blob, url) {
+  
   return new Promise((resolve, reject) => {
     var reader = new window.FileReader();
     reader.readAsDataURL(blob); 
     reader.onloadend = function() {
-        base64data = reader.result;                
-        resolve(base64data );
+        base64data = reader.result;
+                     
+        resolve(fixImgDataType(base64data, url));
     }
   });
 }
+
+function fixImgDataType (b64, filename) {
+  // Fix header for these fucking Safari
+  if (!b64.startsWith('data:;')) {
+    return b64;
+  } 
+
+  const split = filename.split('.'),
+    type = split[split.length-1].toLowerCase();
+  return 'data:image/' + type + ';' + b64.substr(6);
+} 
 
 /**
  * Extract meta data (width & height) from a
@@ -415,12 +420,5 @@ function b64imageMetaExtractor (b64) {
 
 
 
-
-// Start the magic
-var myPDF = new pdfBuilder(input);
-myPDF.onReady.then(() => {
-  console.log('Fini')
-  //myPDF.doc.output('dataurl')
-})
 
 

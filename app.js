@@ -1,86 +1,101 @@
+var store = {},
+    outputFilename = 'EV_',
+    signaturePad, myPDF;
+
 var mainForm = document.querySelectorAll('#mainForm .inline-field-input'),
     drivingLicense = document.getElementById('drivingLicense'),
     nameField = document.getElementById('nameField'),
     fieldPlace = document.getElementById('fieldPlace'),
     fieldDate = document.getElementById('fieldDate');
 
-var drivingLicensePicture,
-signaturePad;
 
-function init() {
 
-  // Store DOMs
-  drivingLicense.onchange = function (evt) {
-    var tgt = evt.target || window.event.srcElement,
-        files = tgt.files;
+// Page one
+// Driving license
+drivingLicense.onchange = function (evt) {
+  var tgt = evt.target || window.event.srcElement,
+      files = tgt.files;
 
-    // FileReader support
-    if (FileReader && files && files.length) {
-      var fr = new FileReader();
-      fr.onload = function () {
-        drivingLicensePicture = fr.result;
-      }
-      fr.readAsDataURL(files[0]);
+  // FileReader support
+  if (FileReader && files && files.length) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      store.drivingLicense = fr.result;
     }
-
-    // Not supported
-    else {
-        // fallback -- perhaps submit the input to an iframe and temporarily store
-        // them on the server until the user's session ends.
-    }
+    fr.readAsDataURL(files[0]);
+  }
 }
 
-  // Setup stuff
-  var now = new Date();
-  fieldPlace.value = 'Auch';
-  fieldDate.value = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`
+// Page 2
+// Setup input fields
+var now = new Date();
+fieldPlace.value = 'Auch';
+fieldDate.value = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+outputFilename += `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_`;
 
-  var canvas = document.querySelector("canvas");
-  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-  canvas.width = canvas.offsetWidth * ratio;
-  canvas.height = canvas.offsetHeight * ratio;
-  canvas.getContext("2d").scale(ratio, ratio);
+// Init signature pad
+var canvas = document.querySelector("canvas");
+var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+canvas.width = canvas.offsetWidth * ratio;
+canvas.height = canvas.offsetHeight * ratio;
+canvas.getContext("2d").scale(ratio, ratio);
 
-  signaturePad = new SignaturePad(canvas);
-  signaturePad.on()
-
-}
-
-init()
-
+signaturePad = new SignaturePad(canvas);
+signaturePad.on()
 
 
+// Hide pages
+document.getElementById('page2').style.display = 'none';
+document.getElementById('page3').style.display = 'none';
+document.getElementById('page4').style.display = 'none';
 
 
 
-var pageOneForm;
+
+
 
 function validateStep (step) {
+  var fields
+  
   switch (step) {
     case 1:
-      pageOneForm = getValuesFromFieldList(mainForm)
-      nameField.textContent = pageOneForm.name
+      fields = document.querySelectorAll('#page1 input, #page1 textarea');
+      store.mainform = getValuesFromFieldList(fields);
+      nameField.textContent = store.mainform.name;
+      outputFilename += store.mainform.name;
       break;
 
     case 2:
-      var fields = document.querySelectorAll('#page2 input')
-      pageTwoForm = getValuesFromFieldList(fields)
+      fields = document.querySelectorAll('#page2 input')
+      store.meta = getValuesFromFieldList(fields)
 
       if(signaturePad.isEmpty()) {
         alert('Votre signature est obligatoire')
         return;
       }
-      signature = signaturePad.toDataURL("image/svg+xml");
+      store.signature = signaturePad.toDataURL("image/png");
       break;
 
     case 3:
-
+      fields = document.querySelectorAll('#page3 input')
+      store.feedback = getValuesFromFieldList(fields)
+      myPDF = new pdfBuilder(store);
       break;
   }
+
+  // Reveal and scroll
+  let nextPage = document.getElementById('page' + (step+1))
+  nextPage.style.display = 'inherit';
+  smoothScrollTo(nextPage)
+}
+
+function save () {
+  console.log(store)
+  myPDF.doc.save(outputFilename + '.pdf')
 }
 
 
-var getValuesFromFieldList = function (fieldList) {
+function getValuesFromFieldList (fieldList) {
   var options = {};
   forEach(fieldList, function (index, el) {
     if (el.type === 'radio' && !el.checked) {
@@ -96,8 +111,17 @@ var getValuesFromFieldList = function (fieldList) {
   return options;
 };
 
-var forEach = function (array, callback, scope) {
+function forEach (array, callback, scope) {
   for (var i = 0; i < array.length; i++) {
     callback.call(scope, i, array[i]); // passes back stuff we need
   }
 };
+
+function pad (num) {
+  if (num < 10) {
+    return '0' + num;
+  }
+  else {
+    return num
+  }
+}
