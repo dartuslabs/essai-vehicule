@@ -112,13 +112,15 @@ fieldset {
 /**
  * Buttons
  */
-button {
+button, .button {
   border: 1px solid var(--primary);
   font-size: 1em;
   color: var(--primary);
   border-radius: 1em;
   padding: .25em .65em;
   background: none;
+  text-decoration: none;
+  transition: .3s opacity;
 }
 
 

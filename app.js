@@ -6,8 +6,10 @@ var mainForm = document.querySelectorAll('#mainForm .inline-field-input'),
     drivingLicense = document.getElementById('drivingLicense'),
     nameField = document.getElementById('nameField'),
     fieldPlace = document.getElementById('fieldPlace'),
-    fieldDate = document.getElementById('fieldDate');
-
+    fieldDate = document.getElementById('fieldDate'),
+    downloadAnchor = document.getElementById('downloadAnchor'),
+    startTime = document.getElementById('startTime'),
+    endTime = document.getElementById('endTime');
 
 
 // Page one
@@ -43,11 +45,15 @@ canvas.getContext("2d").scale(ratio, ratio);
 signaturePad = new SignaturePad(canvas);
 signaturePad.on()
 
+// Page 4
+startTime.value = getTime();
+
 
 // Hide pages
 document.getElementById('page2').style.display = 'none';
 document.getElementById('page3').style.display = 'none';
 document.getElementById('page4').style.display = 'none';
+document.getElementById('page5').style.display = 'none';
 
 
 
@@ -77,9 +83,19 @@ function validateStep (step) {
       break;
 
     case 3:
-      fields = document.querySelectorAll('#page3 input')
+      endTime.value = getTime();
+      break;
+
+    case 4:
+      fields = document.querySelectorAll('#page4 input')
       store.feedback = getValuesFromFieldList(fields)
       myPDF = new pdfBuilder(store);
+      myPDF.onReady.then(() => {
+        var url = window.URL.createObjectURL(myPDF.doc.output('blob'));
+        downloadAnchor.href = url;
+        downloadAnchor.download = outputFilename + '.pdf';
+        downloadAnchor.style.opacity = 1;
+      })
       break;
   }
 
@@ -87,11 +103,6 @@ function validateStep (step) {
   let nextPage = document.getElementById('page' + (step+1))
   nextPage.style.display = 'inherit';
   smoothScrollTo(nextPage)
-}
-
-function save () {
-  console.log(store)
-  myPDF.doc.save(outputFilename + '.pdf')
 }
 
 
@@ -116,6 +127,11 @@ function forEach (array, callback, scope) {
     callback.call(scope, i, array[i]); // passes back stuff we need
   }
 };
+
+function getTime () {
+  var now = new Date();
+  return now.getHours() + ':' + pad(now.getMinutes())
+}
 
 function pad (num) {
   if (num < 10) {

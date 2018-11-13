@@ -4,14 +4,15 @@
     <title>Dartus - Essai de vehicule</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex" />
 
     <link rel="shortcut icon" href="assets/favicon.ico">
     <meta name="theme-color" content="#000000">
 
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/images/app_icon_512.png">
 
     <!-- Add to home screen for Safari on iOS -->
-
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
@@ -51,14 +52,6 @@
           <input class="inline-field-input" type="text" name="immatriculation">
         </label>
         <label class="inline-field">
-          <div class="inline-field-label">Heure depart de l'essai</div>
-          <input class="inline-field-input" type="text" name="startTime" placeholder="15:15">
-        </label>
-        <label class="inline-field">
-          <div class="inline-field-label">Heure fin d'essai</div>
-          <input class="inline-field-input" type="text" name="endTime" placeholder="15:45">
-        </label>
-        <label class="inline-field">
           <div class="inline-field-label">Observations</div>
           <textarea class="inline-field-input" type="text" name="observation"></textarea>
         </label>
@@ -91,8 +84,16 @@
       </div>
     </div>
 
-    <!-- Form pt.3 -->
+    <!-- Part 3 -->
     <div class="page" id="page3">
+      <div class="credits">
+        <p>Vous êtes dés à présent pret pour l'essai. Vous pourrez effectuer la fin du questionaire a votre retour.</p>
+        <button onclick="validateStep(3)">Etape suivante</button>
+      </div>
+    </div>
+
+    <!-- Form pt.4 -->
+    <div class="page" id="page4">
       <h1>Vos premieres sensations</h1>
       <p>Vous venez d’effectuer un essai sur un de nos véhicules de démonstration, nous espérons que cet essai vous a pleinement satisfait. Nous vous remercions de bien vouloir nous faire part de vos impressions.</p>
 
@@ -221,7 +222,6 @@
           </div>
         </div>
 
-
         <div class="block">
           <p>Votre projet d'achat de vehicule</p>
           <div class="form-radio">
@@ -243,19 +243,33 @@
             <span style="min-width: 20%; font-weight: bold; text-align: right;"><span style="font-size: 1.5em;" id="satisfactionEssaiOut">5</span> /10</span>
           </div>
         </div>
+
+        <div class="block feedback-row">
+          <span class="feedback-label">Horaires de l'essai</span>
+          <span>de&nbsp;</span>
+          <input class="inline-field-input" style="width: 8rem; text-align: center;" type="text" id="startTime" name="startTime" placeholder="15:15">
+          <span>&nbsp;à&nbsp;</span>
+          <input class="inline-field-input" style="width: 8rem; text-align: center;" type="text" id="endTime" name="endTime" placeholder="15:45">
+        </div>
       </form>
 
       <div class="action-block">
-        <button onclick="validateStep(3)">Valider</button>
+        <button onclick="validateStep(4)">Valider</button>
       </div>
     </div>
 
-    <div id="page4" class="page">
+    <div class="page" id="page5">
       <div class="credits">
-      <p>Toute l’équipe du Garage Dartus vous remercie d’avoir pris le temps de répondre à ce questionnaire, c’est par vos réponses que nous améliorons notre service.</p>
-      <button onclick="save()">Telecharger recu</button>
+        <p>Toute l’équipe du Garage Dartus vous remercie d’avoir pris le temps de répondre à ce questionnaire, c’est par vos réponses que nous améliorons notre service.</p>
+        <a id="downloadAnchor" class="button" style="opacity: 0;">Telecharger recu</a>
+        <div style="margin-top: 10rem; font-size: .5em;">
+          <button onclick="location.reload()">Reset</button>
+        </div>
       </div>
     </div>
+
+      
+
 
 
     <script src="app.js"></script>
