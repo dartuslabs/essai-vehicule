@@ -1,15 +1,16 @@
-var APP_NAME = 'breaklock',
-    APP_VERSION = 12,
+var APP_NAME = 'dartus',
+    APP_VERSION = 1,
     CACHE_NAME = APP_NAME + '_' + APP_VERSION;
 var filesToCache = [
   './',
   './?utm_source=homescreen',
   './app.css',
   './app.js',
-  './assets/intro.svg',
-  './assets/fonts/robotomono-light-webfont.woff2',
-  './assets/fonts/robotomono-light-webfont.woff',
-  './assets/fonts/robotomono-light-webfont.ttf'
+  './scroller.js',
+  './pdfBuilder.js',
+  './lib/jspdf.min.js',
+  './lib/signature_pad.min.js',
+  './assets/images/dartus_logo.png'
 ];
 
 // Service worker from Google Documentation

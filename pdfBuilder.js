@@ -92,6 +92,10 @@ pdfBuilder.prototype.fillContent = function () {
   this.fillPageOne();
   this.fillPageTwo();
   this.fillPageThree();
+
+  this.doc.setProperties({
+    title: this.data.filename
+  });
 }
 
 pdfBuilder.prototype.fillPageOne = function () {

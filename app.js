@@ -89,6 +89,7 @@ function validateStep (step) {
     case 4:
       fields = document.querySelectorAll('#page4 input')
       store.feedback = getValuesFromFieldList(fields)
+      store.filename = outputFilename;
       myPDF = new pdfBuilder(store);
       myPDF.onReady.then(() => {
         var url = window.URL.createObjectURL(myPDF.doc.output('blob'));
